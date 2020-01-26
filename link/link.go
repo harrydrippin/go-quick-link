@@ -51,17 +51,18 @@ func (db *Database) GetQuickLinks() []QuickLink {
 }
 
 // AddQuickLink adds given QuickLink to the database
-func (db *Database) AddQuickLink(link QuickLink) error {
+func (db *Database) AddQuickLink(links []QuickLink) error {
 	db.Lock()
 	defer db.Unlock()
 
 	// TODO(@harry): Need to check if command is URL-compatible
-	query := Query{
-		Command:    link.Command,
-		ParamCount: int(link.ParamCount),
+	for _, link := range links {
+		query := Query{
+			Command:    link.Command,
+			ParamCount: int(link.ParamCount),
+		}
+		db.queryMap[query] = link
 	}
-
-	db.queryMap[query] = link
 
 	return nil
 }

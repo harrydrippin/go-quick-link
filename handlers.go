@@ -58,15 +58,15 @@ func HandlerGetQuickLinks(w http.ResponseWriter, r *http.Request) {
 
 // HandlerSetQuickLinks handles the POST `/manage` route
 func HandlerSetQuickLinks(w http.ResponseWriter, r *http.Request) {
-	var quickLink link.QuickLink
+	var quickLinks []link.QuickLink
 
-	if err := json.NewDecoder(r.Body).Decode(&quickLink); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&quickLinks); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	if err := link.GetDatabase().AddQuickLink(quickLink); err != nil {
+	if err := link.GetDatabase().AddQuickLink(quickLinks); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
